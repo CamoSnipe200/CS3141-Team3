@@ -1,10 +1,11 @@
+
+
 /*
 This is a UI file (.ui.qml) that is intended to be edited in Qt Design Studio only.
 It is supposed to be strictly declarative and only uses a subset of QML. If you edit
 this file manually, you might introduce QML code that is not supported by Qt Design Studio.
 Check out https://doc.qt.io/qtcreator/creator-quick-ui-forms.html for details on .ui.qml files.
 */
-
 import QtQuick 6.4
 import QtQuick.Controls 6.4
 import Recipe_App
@@ -50,11 +51,11 @@ Rectangle {
         anchors.topMargin: 20
     }
 
-
     Rectangle {
         id: buttonPannel
         y: 461
         height: 279
+        visible: true
         color: "#ffffff"
         border.color: "#ffcfcf"
         border.width: 10
@@ -88,7 +89,7 @@ Rectangle {
 
                 Connections {
                     target: addRecipeButton
-                    onClicked: addRecipeWindow.visible=true
+                    onClicked: addRecipeWindow.visible = true
                 }
             }
 
@@ -104,7 +105,7 @@ Rectangle {
 
                 Connections {
                     target: viewRecipeButton
-                    onClicked: viewRecipeWindow.visible=true
+                    onClicked: viewRecipeWindow.visible = true
                 }
             }
 
@@ -119,12 +120,11 @@ Rectangle {
 
                 Connections {
                     target: editRecipeButton
-                    onClicked: editRecipeWindow.visible=true
+                    onClicked: editRecipeWindow.visible = true
                 }
             }
         }
     }
-
 
     Rectangle {
         id: editRecipeWindow
@@ -164,11 +164,10 @@ Rectangle {
 
             Connections {
                 target: editBackToMain
-                onClicked: editRecipeWindow.visible=false
+                onClicked: editRecipeWindow.visible = false
             }
         }
     }
-
 
     Rectangle {
         id: viewRecipeWindow
@@ -206,11 +205,92 @@ Rectangle {
 
             Connections {
                 target: viewBackToMain
-                onClicked: viewRecipeWindow.visible=false
+                onClicked: viewRecipeWindow.visible = false
             }
         }
-    }
 
+        Rectangle {
+            id: rectangle
+            x: 752
+            y: 194
+            width: 519
+            height: 498
+            color: "#ffffff"
+
+            Text {
+                id: text1
+                x: 205
+                y: 25
+                width: 118
+                height: 42
+                text: qsTr("Recipe Name")
+                font.pixelSize: 20
+            }
+
+            Text {
+                id: text2
+                x: 80
+                y: 246
+                text: qsTr("Ingredients")
+                font.pixelSize: 14
+            }
+
+            Text {
+                id: text3
+                x: 314
+                y: 246
+                width: 68
+                height: 33
+                text: qsTr("Cook Time")
+                font.pixelSize: 14
+            }
+
+            Text {
+                id: text4
+                x: 283
+                y: 73
+                text: qsTr("Preperation materials")
+                font.pixelSize: 14
+            }
+
+            Image {
+                id: image
+                x: 47
+                y: 73
+                width: 135
+                height: 134
+                source: "qrc:/qtquickplugin/images/template_image.png"
+                fillMode: Image.PreserveAspectFit
+            }
+        }
+
+        Rectangle {
+            id: rectangle1
+            x: 81
+            y: 237
+            width: 180
+            height: 49
+            color: "#a5a5a5"
+
+            TextInput {
+                id: textInput
+                x: 28
+                y: 12
+                width: 124
+                height: 25
+                text: qsTr("Enter Recipe Here")
+                font.pixelSize: 15
+            }
+        }
+
+        Text {
+            id: text5
+            x: 96
+            y: 197
+            text: qsTr("Recipe Finder")
+            font.pixelSize: 25
+        }
+    }
 
     Rectangle {
         id: addRecipeWindow
@@ -247,11 +327,10 @@ Rectangle {
 
             Connections {
                 target: addBackToMain
-                onClicked: addRecipeWindow.visible=false
+                onClicked: addRecipeWindow.visible = false
             }
         }
     }
-
 
     states: [
         State {
