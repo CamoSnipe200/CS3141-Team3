@@ -69,6 +69,7 @@ Rectangle {
 
         RowLayout {
             id: buttonPannelLayout
+            visible: true
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
@@ -298,7 +299,7 @@ Rectangle {
         y: 0
         width: 1334
         height: 750
-        visible: true
+        visible: false
         color: "#b4f8ff"
         radius: 10
         border.color: "#ffcfcf"
