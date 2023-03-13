@@ -298,7 +298,7 @@ Rectangle {
         y: 0
         width: 1334
         height: 750
-        visible: false
+        visible: true
         color: "#b4f8ff"
         radius: 10
         border.color: "#ffcfcf"
@@ -330,8 +330,117 @@ Rectangle {
                 onClicked: addRecipeWindow.visible = false
             }
         }
-    }
 
+        Column {
+            id: column
+            x: 108
+            y: 175
+            width: 1107
+            height: 493
+
+            RowLayout {
+                id: recipeNameRow
+                height: 100
+                visible: true
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                clip: false
+                anchors.rightMargin: 0
+                anchors.leftMargin: 0
+                anchors.topMargin: 10
+
+                RowLayout {
+                    id: rowLayout
+                    width: 300
+                    height: 100
+                    property string property0: "This is a string"
+
+                    Text {
+                        id: text6
+                        text: qsTr("Recipe Name:")
+                        font.pixelSize: 24
+                        Layout.leftMargin: 0
+                    }
+
+                    TextInput {
+                        id: textInput1
+                        width: 80
+                        height: 20
+                        text: qsTr("Text Input")
+                        font.pixelSize: 16
+                        Layout.leftMargin: 10
+                    }
+                }
+
+                Button {
+                    id: button
+                    text: qsTr("Submit")
+                }
+            }
+
+            ColumnLayout {
+                id: addIngredientColumn
+                width: 600
+                height: 100
+                anchors.top: recipeNameRow.bottom
+                anchors.topMargin: 10
+
+                RowLayout {
+                    id: rowLayout2
+                    width: 415
+                    height: 80
+
+                    TextEdit {
+                        id: textEdit
+                        width: 80
+                        height: 20
+                        text: qsTr("0")
+                        font.pixelSize: 24
+                    }
+
+                    ComboBox {
+                        id: comboBox
+                        width: 50
+                    }
+
+                    ToolSeparator {
+                        id: toolSeparator
+                    }
+
+                    TextEdit {
+                        id: textEdit1
+                        width: 80
+                        height: 20
+                        text: "Ingredient"
+                        font.pixelSize: 24
+                    }
+                }
+
+                Button {
+                    id: button1
+                    text: qsTr("Another Ingredient")
+                }
+            }
+
+            Column {
+                id: column1
+                width: 200
+                anchors.top: addIngredientColumn.bottom
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 10
+                anchors.topMargin: 10
+
+                TextEdit {
+                    id: textEdit2
+                    width: 200
+                    height: 40
+                    text: qsTr("Other Instrucions")
+                    font.pixelSize: 24
+                }
+            }
+        }
+    }
     states: [
         State {
             name: "clicked"
