@@ -19,6 +19,19 @@ Rectangle {
     radius: 6
     border.color: "#ffcfcf"
     border.width: 5
+    gradient: Gradient {
+        orientation: Gradient.Vertical
+        GradientStop {
+            position: 0
+            color: "#7de2fc"
+        }
+
+        GradientStop {
+            position: 1
+            color: "#b9b6e5"
+        }
+    }
+    z: 0
     property bool isDialogOpen: false
 
     Text {
@@ -39,11 +52,11 @@ Rectangle {
 
     Text {
         id: projectTitle
-        text: qsTr("Project Title - Recipe Keeper")
+        text: qsTr("HALF MEASURES - Recipe Keeper")
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        font.pixelSize: 80
+        font.pixelSize: 78
         horizontalAlignment: Text.AlignHCenter
         font.family: "Verdana"
         anchors.rightMargin: 20
@@ -56,12 +69,13 @@ Rectangle {
         y: 461
         height: 279
         visible: true
-        color: "#ffffff"
-        border.color: "#ffcfcf"
+        color: "#a4ffffff"
+        border.color: "#00ffcfcf"
         border.width: 10
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        smooth: true
         property bool enabled: true
         anchors.rightMargin: 10
         anchors.leftMargin: 10
@@ -134,10 +148,22 @@ Rectangle {
         width: 1334
         height: 750
         visible: false
-        color: "#b4f8ff"
+        color: "#000000"
         radius: 10
         border.color: "#ffcfcf"
         border.width: 10
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop {
+                position: 0
+                color: "#7de2fc"
+            }
+
+            GradientStop {
+                position: 1
+                color: "#b9b6e5"
+            }
+        }
 
         Text {
             id: editRecipeTitle
@@ -177,10 +203,22 @@ Rectangle {
         width: 1334
         height: 750
         visible: false
-        color: "#b4f8ff"
         radius: 10
         border.color: "#ffcfcf"
         border.width: 10
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop {
+                position: 0
+                color: "#7de2fc"
+            }
+
+            GradientStop {
+                position: 1
+                color: "#b9b6e5"
+            }
+        }
+        layer.enabled: false
 
         Text {
             id: viewRecipeTitle
@@ -216,7 +254,8 @@ Rectangle {
             y: 194
             width: 519
             height: 498
-            color: "#ffffff"
+            opacity: 0.89
+            color: "#dcdcdc"
 
             Text {
                 id: text1
@@ -271,7 +310,7 @@ Rectangle {
             y: 237
             width: 180
             height: 49
-            color: "#a5a5a5"
+            color: "#5193a5"
 
             TextInput {
                 id: textInput
@@ -300,10 +339,22 @@ Rectangle {
         width: 1334
         height: 750
         visible: false
-        color: "#b4f8ff"
+        color: "#000000"
         radius: 10
         border.color: "#ffcfcf"
         border.width: 10
+        gradient: Gradient {
+            orientation: Gradient.Vertical
+            GradientStop {
+                position: 0
+                color: "#7de2fc"
+            }
+
+            GradientStop {
+                position: 1
+                color: "#b9b6e5"
+            }
+        }
 
         Text {
             id: addRecipeTitle
@@ -449,3 +500,5 @@ Rectangle {
         }
     ]
 }
+
+
