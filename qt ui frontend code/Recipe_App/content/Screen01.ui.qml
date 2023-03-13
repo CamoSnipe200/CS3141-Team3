@@ -56,11 +56,11 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        font.pixelSize: 78
+        font.pixelSize: 75
         horizontalAlignment: Text.AlignHCenter
         font.family: "Verdana"
-        anchors.rightMargin: 20
-        anchors.leftMargin: 20
+        anchors.rightMargin: 40
+        anchors.leftMargin: 40
         anchors.topMargin: 20
     }
 
