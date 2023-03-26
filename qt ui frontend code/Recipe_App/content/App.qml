@@ -14,6 +14,10 @@ Window {
 
     Screen01 {
         id: mainScreen
+        x: 0
+        y: 0
+        width: 1400
+        height: 700
     }
 
 }

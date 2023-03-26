@@ -13,12 +13,12 @@ import QtQuick.Layouts 1.0
 
 Rectangle {
     id: recipeMainWindow
-    width: Constants.width
     height: Constants.height
+    visible: true
     color: "#f8ffbc"
-    radius: 6
+    radius: 10
     border.color: "#ffcfcf"
-    border.width: 5
+    border.width: 10
     gradient: Gradient {
         orientation: Gradient.Vertical
         GradientStop {
@@ -33,6 +33,7 @@ Rectangle {
     }
     z: 0
     property bool isDialogOpen: false
+    width: Constants.width
 
     Text {
         id: moto
@@ -88,35 +89,37 @@ Rectangle {
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            anchors.rightMargin: 70
-            anchors.leftMargin: 70
-            anchors.bottomMargin: 70
-            anchors.topMargin: 70
-            spacing: 200
+            anchors.rightMargin: 22
+            anchors.leftMargin: 20
+            anchors.bottomMargin: 18
+            anchors.topMargin: 25
+            spacing: 100
             Button {
                 id: addRecipeButton
-                width: 350
-                height: 150
-                text: qsTr("Add Recipe")
+                width: 150
+                height: 75
+                text: qsTr("Add")
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 icon.color: "#ddff4545"
                 Layout.fillHeight: true
-                Layout.fillWidth: true
+                Layout.fillWidth: false
 
                 Connections {
                     target: addRecipeButton
-                    onClicked: addRecipeWindow.visible = true
+                    onClicked: addRecipeWindow.visible = true;
                 }
             }
 
             Button {
                 id: viewRecipeButton
-                width: 350
-                height: 150
-                text: qsTr("View Recipe")
+                width: 150
+                height: 100
+                text: qsTr("View")
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 icon.width: 30
                 icon.color: "#ddff4545"
                 Layout.fillHeight: true
-                Layout.fillWidth: true
+                Layout.fillWidth: false
 
                 Connections {
                     target: viewRecipeButton
@@ -126,16 +129,47 @@ Rectangle {
 
             Button {
                 id: editRecipeButton
-                width: 350
-                height: 150
-                text: qsTr("Edit Recipe")
+                width: 150
+                height: 100
+                text: qsTr("Edit")
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 icon.color: "#ddff4545"
                 Layout.fillHeight: true
-                Layout.fillWidth: true
+                Layout.fillWidth: false
 
                 Connections {
                     target: editRecipeButton
                     onClicked: editRecipeWindow.visible = true
+                }
+            }
+
+            Button {
+                id: shareRecipeButton
+                width: 150
+                height: 100
+                text: qsTr("SHARE")
+                Layout.fillHeight: true
+                Layout.fillWidth: false
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+                Connections {
+                    target: shareRecipeButton
+                    onClicked: shareRecipeWindow.visible = true
+                }
+            }
+
+            Button {
+                id: duplicateRecipeButton
+                width: 150
+                height: 100
+                text: qsTr("DUPLICATE")
+                Layout.fillHeight: true
+                Layout.fillWidth: false
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+                Connections {
+                    target: duplicateRecipeButton
+                    onClicked: duplicateRecipeWindow.visible = true
                 }
             }
         }
@@ -145,15 +179,15 @@ Rectangle {
         id: editRecipeWindow
         x: 0
         y: 0
-        width: 1334
-        height: 750
+        width: Constants.width
+        height: Constants.height
         visible: false
         color: "#000000"
         radius: 10
         border.color: "#ffcfcf"
         border.width: 10
         gradient: Gradient {
-            orientation: Gradient.Horizontal
+            orientation: Gradient.Vertical
             GradientStop {
                 position: 0
                 color: "#7de2fc"
@@ -200,8 +234,8 @@ Rectangle {
         id: viewRecipeWindow
         x: 0
         y: 0
-        width: 1334
-        height: 750
+        width: Constants.width
+        height: Constants.height
         visible: false
         radius: 10
         border.color: "#ffcfcf"
@@ -336,8 +370,8 @@ Rectangle {
         id: addRecipeWindow
         x: 0
         y: 0
-        width: 1334
-        height: 750
+        width: Constants.width
+        height: Constants.height
         visible: false
         color: "#000000"
         radius: 10
@@ -358,6 +392,7 @@ Rectangle {
 
         Text {
             id: addRecipeTitle
+            visible: true
             text: qsTr("Add Recipe")
             anchors.left: parent.left
             anchors.right: parent.right
@@ -493,6 +528,111 @@ Rectangle {
             }
         }
     }
+
+    Rectangle {
+        id: duplicateRecipeWindow
+        x: 0
+        y: 0
+        width: Constants.width
+        height: Constants.height
+        visible: false
+        radius: 10
+        border.color: "#ffcfcf"
+        border.width: 10
+        gradient: Gradient {
+            GradientStop {
+                position: 0
+                color: "#7de2fc"
+            }
+
+            GradientStop {
+                position: 1
+                color: "#b9b6e5"
+            }
+            orientation: Gradient.Vertical
+        }
+
+        Text {
+            id: duptitle
+            height: 110
+            visible: true
+            text: qsTr("DUPLICATE RECIPE")
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            font.pixelSize: 70
+            horizontalAlignment: Text.AlignHCenter
+            anchors.rightMargin: 45
+            anchors.leftMargin: 45
+            anchors.topMargin: 62
+        }
+
+        Button {
+            id: dupeBackToMain
+            x: 1002
+            text: qsTr("Back To Main Menu")
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin: 20
+            anchors.topMargin: 20
+
+            Connections {
+                target: dupeBackToMain
+                onClicked: duplicateRecipeWindow.visible = false
+            }
+        }
+    }
+
+    Rectangle {
+        id: shareRecipeWindow
+        x: 0
+        y: 0
+        width: Constants.width
+        height: Constants.height
+        visible: false
+        radius: 10
+        border.color: "#ffcfcf"
+        border.width: 10
+        gradient: Gradient {
+            GradientStop {
+                position: 0
+                color: "#7de2fc"
+            }
+
+            GradientStop {
+                position: 1
+                color: "#b9b6e5"
+            }
+            orientation: Gradient.Vertical
+        }
+
+        Text {
+            id: shareTitle
+            text: qsTr("Share Recipe")
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            font.pixelSize: 70
+            horizontalAlignment: Text.AlignHCenter
+            anchors.rightMargin: 20
+            anchors.leftMargin: 70
+            anchors.topMargin: 70
+        }
+
+        Button {
+            id: shareBackToMain
+            text: qsTr("Back To Main Menu")
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.rightMargin: 20
+            anchors.topMargin: 20
+
+            Connections {
+                target: shareBackToMain
+                onClicked: shareRecipeWindow.visible = false
+            }
+        }
+    }
     states: [
         State {
             name: "clicked"
@@ -500,5 +640,3 @@ Rectangle {
         }
     ]
 }
-
-
