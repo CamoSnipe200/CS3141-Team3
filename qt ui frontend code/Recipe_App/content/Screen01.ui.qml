@@ -263,6 +263,7 @@ Rectangle {
             width: 519
             height: 498
             opacity: 0.89
+            visible: true
             color: "#dcdcdc"
 
             Text {
@@ -517,6 +518,12 @@ Rectangle {
                     ComboBox {
                         id: comboBox
                         width: 50
+                        visible: true
+                        displayText: "Tbsp"
+                        textRole: ""
+                        editable: false
+                        currentIndex: 0
+
                     }
 
                     ToolSeparator {
@@ -563,7 +570,7 @@ Rectangle {
         y: 0
         width: Constants.width
         height: Constants.height
-        visible: false
+        visible: true
         radius: 10
         border.color: "#ffcfcf"
         border.width: 10
@@ -605,6 +612,13 @@ Rectangle {
                 target: shareBackToMain
                 onClicked: shareRecipeWindow.visible = false
             }
+        }
+
+        Button {
+            id: sharePDF
+            x: 632
+            y: 268
+            text: qsTr("SHARE TO PDF")
         }
     }
     states: [
