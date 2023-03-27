@@ -320,9 +320,15 @@ Rectangle {
                 visible: true
                 text: qsTr("Edit")
                 Layout.fillWidth: false
+
                 Connections {
                     target: editRecipeOnlyButton
                     onClicked: editRecipeWindow.visible = true
+                }
+
+                Connections {
+                    target: editRecipeOnlyButton
+                    onClicked: viewRecipeWindow.visible = false
                 }
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -341,6 +347,11 @@ Rectangle {
                 Connections {
                     target: duplicateAndEditButton
                     onClicked: editRecipeWindow.visible = true
+                }
+
+                Connections {
+                    target: duplicateAndEditButton
+                    onClicked: console.log("clicked")
                 }
                 Layout.fillHeight: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
