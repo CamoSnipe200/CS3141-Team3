@@ -37,6 +37,7 @@ Rectangle {
 
     Text {
         id: moto
+        visible: true
         text: qsTr("Everything In One Place")
         anchors.left: parent.left
         anchors.right: parent.right
@@ -53,6 +54,7 @@ Rectangle {
 
     Text {
         id: projectTitle
+        visible: true
         text: qsTr("HALF MEASURES - Recipe Keeper")
         anchors.left: parent.left
         anchors.right: parent.right
@@ -96,13 +98,14 @@ Rectangle {
             spacing: 100
             Button {
                 id: addRecipeButton
-                width: 150
-                height: 75
+                width: 186
+                height: 106
+                visible: true
                 text: qsTr("Add")
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                font.kerning: true
                 icon.color: "#ddff4545"
                 Layout.fillHeight: true
-                Layout.fillWidth: false
+                Layout.fillWidth: true
 
                 Connections {
                     target: addRecipeButton
@@ -112,14 +115,15 @@ Rectangle {
 
             Button {
                 id: viewRecipeButton
-                width: 150
-                height: 100
+                width: 186
+                height: 106
+                visible: true
                 text: qsTr("View")
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 icon.width: 30
                 icon.color: "#ddff4545"
                 Layout.fillHeight: true
-                Layout.fillWidth: false
+                Layout.fillWidth: true
 
                 Connections {
                     target: viewRecipeButton
@@ -128,48 +132,18 @@ Rectangle {
             }
 
             Button {
-                id: editRecipeButton
-                width: 150
-                height: 100
-                text: qsTr("Edit")
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                icon.color: "#ddff4545"
-                Layout.fillHeight: true
-                Layout.fillWidth: false
-
-                Connections {
-                    target: editRecipeButton
-                    onClicked: editRecipeWindow.visible = true
-                }
-            }
-
-            Button {
                 id: shareRecipeButton
-                width: 150
-                height: 100
+                width: 186
+                height: 106
+                visible: true
                 text: qsTr("SHARE")
                 Layout.fillHeight: true
-                Layout.fillWidth: false
+                Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
                 Connections {
                     target: shareRecipeButton
                     onClicked: shareRecipeWindow.visible = true
-                }
-            }
-
-            Button {
-                id: duplicateRecipeButton
-                width: 150
-                height: 100
-                text: qsTr("DUPLICATE")
-                Layout.fillHeight: true
-                Layout.fillWidth: false
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
-                Connections {
-                    target: duplicateRecipeButton
-                    onClicked: duplicateRecipeWindow.visible = true
                 }
             }
         }
@@ -283,7 +257,7 @@ Rectangle {
         }
 
         Rectangle {
-            id: rectangle
+            id: recipePreview
             x: 752
             y: 194
             width: 519
@@ -292,9 +266,9 @@ Rectangle {
             color: "#dcdcdc"
 
             Text {
-                id: text1
-                x: 205
-                y: 25
+                id: recipeName
+                x: 201
+                y: 54
                 width: 118
                 height: 42
                 text: qsTr("Recipe Name")
@@ -302,17 +276,17 @@ Rectangle {
             }
 
             Text {
-                id: text2
+                id: ingredient
                 x: 80
-                y: 246
+                y: 260
                 text: qsTr("Ingredients")
                 font.pixelSize: 14
             }
 
             Text {
-                id: text3
-                x: 314
-                y: 246
+                id: cookTime
+                x: 315
+                y: 260
                 width: 68
                 height: 33
                 text: qsTr("Cook Time")
@@ -320,49 +294,92 @@ Rectangle {
             }
 
             Text {
-                id: text4
-                x: 283
-                y: 73
-                text: qsTr("Preperation materials")
+                id: prepMaterials
+                x: 284
+                y: 90
+                text: qsTr("Preperation Materials")
                 font.pixelSize: 14
             }
 
             Image {
                 id: image
                 x: 47
-                y: 73
+                y: 90
                 width: 135
                 height: 134
                 source: "qrc:/qtquickplugin/images/template_image.png"
                 fillMode: Image.PreserveAspectFit
             }
+
+            Button {
+                id: editRecipeOnlyButton
+                x: 8
+                y: 11
+                width: 158
+                height: 43
+                visible: true
+                text: qsTr("Edit")
+                Layout.fillWidth: false
+                Connections {
+                    target: editRecipeOnlyButton
+                    onClicked: editRecipeWindow.visible = true
+                }
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                icon.color: "#ddff4545"
+            }
+
+            Button {
+                id: duplicateAndEditButton
+                x: 353
+                y: 11
+                width: 158
+                height: 43
+                visible: true
+                text: qsTr("Duplicate and Edit")
+                Layout.fillWidth: false
+                Connections {
+                    target: duplicateAndEditButton
+                    onClicked: editRecipeWindow.visible = true
+                }
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                icon.color: "#ddff4545"
+            }
+
+
         }
 
         Rectangle {
-            id: rectangle1
+            id: searchBar
             x: 81
             y: 237
-            width: 180
+            width: 642
             height: 49
             color: "#5193a5"
 
-            TextInput {
-                id: textInput
-                x: 28
-                y: 12
-                width: 124
-                height: 25
-                text: qsTr("Enter Recipe Here")
-                font.pixelSize: 15
+            TextArea {
+                id: viewRecipeSearchBox
+                x: 10
+                y: 8
+                width: 617
+                height: 45
+                text: ""
+                font.pointSize: 11
+                placeholderText: qsTr("Please Search for the Recipe to Duplicate Here")
+                placeholderTextColor: "#0e08b7"
             }
         }
 
         Text {
-            id: text5
-            x: 96
-            y: 197
+            id: viewRecipeSearchTitle
+            x: 81
+            y: 194
+            width: 642
+            height: 37
             text: qsTr("Recipe Finder")
             font.pixelSize: 25
+            horizontalAlignment: Text.AlignHCenter
         }
     }
 
@@ -530,60 +547,6 @@ Rectangle {
     }
 
     Rectangle {
-        id: duplicateRecipeWindow
-        x: 0
-        y: 0
-        width: Constants.width
-        height: Constants.height
-        visible: false
-        radius: 10
-        border.color: "#ffcfcf"
-        border.width: 10
-        gradient: Gradient {
-            GradientStop {
-                position: 0
-                color: "#7de2fc"
-            }
-
-            GradientStop {
-                position: 1
-                color: "#b9b6e5"
-            }
-            orientation: Gradient.Vertical
-        }
-
-        Text {
-            id: duptitle
-            height: 110
-            visible: true
-            text: qsTr("DUPLICATE RECIPE")
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            font.pixelSize: 70
-            horizontalAlignment: Text.AlignHCenter
-            anchors.rightMargin: 45
-            anchors.leftMargin: 45
-            anchors.topMargin: 62
-        }
-
-        Button {
-            id: dupeBackToMain
-            x: 1002
-            text: qsTr("Back To Main Menu")
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.rightMargin: 20
-            anchors.topMargin: 20
-
-            Connections {
-                target: dupeBackToMain
-                onClicked: duplicateRecipeWindow.visible = false
-            }
-        }
-    }
-
-    Rectangle {
         id: shareRecipeWindow
         x: 0
         y: 0
@@ -640,3 +603,5 @@ Rectangle {
         }
     ]
 }
+
+
