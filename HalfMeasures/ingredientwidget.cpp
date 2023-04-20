@@ -28,9 +28,8 @@ IngredientWidget::IngredientWidget(QWidget *parent)
     m_quantitySpinBox->setDecimals(2);
 
     // Add the measurement types to the combo box
-    m_measurementTypeComboBox->addItem(tr("tablespoon"));
-    m_measurementTypeComboBox->addItem(tr("cup"));
-    m_measurementTypeComboBox->addItem(tr("ounce"));
+    QStringList measurementTypes = {"teaspoon", "tablespoon", "fluid ounce", "cup", "pint", "quart", "gallon", "ounce", "pound", "can"};
+    m_measurementTypeComboBox->addItems(measurementTypes);
 
     // Set the fixed width for the remove button and adjust the margins
     removeButton->setFixedWidth(22);

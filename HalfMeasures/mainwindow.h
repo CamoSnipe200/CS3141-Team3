@@ -54,6 +54,16 @@ private slots:
 
     void on_AS_SubmitButton_clicked();
 
+    void on_AS_OpenRecipeButton_clicked();
+
+    void on_ES_SubmitButton_clicked();
+
+    void on_ES_AddIngredientButton_clicked();
+
+    void on_MS_EditButton_clicked();
+
+    void on_ES_MainMenuButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString currentFile = "";
