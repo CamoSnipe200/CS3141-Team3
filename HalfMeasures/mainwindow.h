@@ -48,6 +48,12 @@ private slots:
 
     void on_MS_ShareButton_clicked();
 
+    void on_AS_AddIngredientButton_clicked();
+
+    void on_AddScreen_customContextMenuRequested(const QPoint &pos);
+
+    void on_AS_SubmitButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString currentFile = "";
