@@ -4,6 +4,7 @@
 #include <QTextStream>
 #include "ingredientwidget.h"
 #include "./ui_mainwindow.h"
+#include "./storageInterface.cpp"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -113,21 +114,29 @@ void MainWindow::on_AS_AddIngredientButton_clicked()
 
 void MainWindow::on_AS_SubmitButton_clicked()
 {
+    Recipe recipe;
 
     // Get the recipe name and instructions from the UI
     QString recipeName = ui->AS_RecipeNameLE->text();
     QString instructions = ui->AS_InstructionsTE->toPlainText();
 
-    // Create a QFile object to write the recipe data to a file
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::currentPath() + "/recipe.txt", tr("Text Files (*.txt)"));
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
-            // Write the recipe name and instructions to the file
-            out << "Recipe Name: " << recipeName << "\n\n";
-            out << "Instructions:\n" << instructions << "\n\n";
-            out << "Ingredients:\n";
+    // Convert QString to standard cpp string
+    recipe.name = recipeName.toStdString();
+    recipe.cookTime;
+    recipe.ingredients;
+    std:string instructionsStd = instructions.toStdString();
+    recipe.instructions.push_back({instructionsStd});
+
+    // // Create a QFile object to write the recipe data to a file
+    // QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::currentPath() + "/recipe.txt", tr("Text Files (*.txt)"));
+    // if (!fileName.isEmpty()) {
+    //     QFile file(fileName);
+    //     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    //         QTextStream out(&file);
+    //         // Write the recipe name and instructions to the file
+    //         out << "Recipe Name: " << recipeName << "\n\n";
+    //         out << "Instructions:\n" << instructions << "\n\n";
+    //         out << "Ingredients:\n";
 
             // Write the ingredient data to the file
             for (int i = 0; i < ui->AS_ScrollArea->widget()->layout()->count(); i++) {
@@ -137,12 +146,19 @@ void MainWindow::on_AS_SubmitButton_clicked()
                     double ingredientAmount = ingredientWidget->m_quantitySpinBox->value();
                     QString ingredientUnit = ingredientWidget->m_measurementTypeComboBox->currentText();
 
-                    out << ingredientName << ": " << ingredientAmount << " " << ingredientUnit << "\n";
+                    // Convert QString and double to strings for Recipe struct
+                    std::string ingredientNameStd = ingredientName.toStdString();
+                    std::string ingredientAmountStd = std::to_string(ingredientAmount);
+                    recipe.ingredients.push_back({ingredientNameStd, ingredientAmountStd});
+
+                    // out << ingredientName << ": " << ingredientAmount << " " << ingredientUnit << "\n";
                 }
             }
-            file.close();
-        }
-    }
+    //         file.close();
+    //     }
+    // }
+
+    writeRecipeToFile(recipe);
 }
 
 void MainWindow::on_AS_OpenRecipeButton_clicked()
@@ -175,35 +191,36 @@ void MainWindow::on_AS_OpenRecipeButton_clicked()
 
 void MainWindow::on_ES_SubmitButton_clicked()
 {
-    // Get the recipe name and instructions from the UI
-    QString recipeName = ui->ES_RecipeNameLE->text();
-    QString instructions = ui->ES_InstructionsTE->toPlainText();
+    MainWindow::on_AS_SubmitButton_clicked();
+    // // Get the recipe name and instructions from the UI
+    // QString recipeName = ui->ES_RecipeNameLE->text();
+    // QString instructions = ui->ES_InstructionsTE->toPlainText();
 
-    // Create a QFile object to write the recipe data to a file
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::currentPath() + "/recipe.txt", tr("Text Files (*.txt)"));
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            QTextStream out(&file);
-            // Write the recipe name and instructions to the file
-            out << "Recipe Name: " << recipeName << "\n\n";
-            out << "Instructions:\n" << instructions << "\n\n";
-            out << "Ingredients:\n";
+    // // Create a QFile object to write the recipe data to a file
+    // QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::currentPath() + "/recipe.txt", tr("Text Files (*.txt)"));
+    // if (!fileName.isEmpty()) {
+    //     QFile file(fileName);
+    //     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    //         QTextStream out(&file);
+    //         // Write the recipe name and instructions to the file
+    //         out << "Recipe Name: " << recipeName << "\n\n";
+    //         out << "Instructions:\n" << instructions << "\n\n";
+    //         out << "Ingredients:\n";
 
-            // Write the ingredient data to the file
-            for (int i = 0; i < ui->ES_ScrollArea->widget()->layout()->count(); i++) {
-                IngredientWidget* ingredientWidget = qobject_cast<IngredientWidget*>(ui->ES_ScrollArea->widget()->layout()->itemAt(i)->widget());
-                if (ingredientWidget != nullptr) {
-                    QString ingredientName = ingredientWidget->m_ingredientNameLineEdit->text();
-                    double ingredientAmount = ingredientWidget->m_quantitySpinBox->value();
-                    QString ingredientUnit = ingredientWidget->m_measurementTypeComboBox->currentText();
+    //         // Write the ingredient data to the file
+    //         for (int i = 0; i < ui->ES_ScrollArea->widget()->layout()->count(); i++) {
+    //             IngredientWidget* ingredientWidget = qobject_cast<IngredientWidget*>(ui->ES_ScrollArea->widget()->layout()->itemAt(i)->widget());
+    //             if (ingredientWidget != nullptr) {
+    //                 QString ingredientName = ingredientWidget->m_ingredientNameLineEdit->text();
+    //                 double ingredientAmount = ingredientWidget->m_quantitySpinBox->value();
+    //                 QString ingredientUnit = ingredientWidget->m_measurementTypeComboBox->currentText();
 
-                    out << ingredientName << ": " << ingredientAmount << " " << ingredientUnit << "\n";
-                }
-            }
-            file.close();
-        }
-    }
+    //                 out << ingredientName << ": " << ingredientAmount << " " << ingredientUnit << "\n";
+    //             }
+    //         }
+    //         file.close();
+    //     }
+    // }
 }
 
 

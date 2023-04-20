@@ -85,15 +85,15 @@ void printRecipe(const Recipe& recipe) {
     }
 }
 
-int main() {
-    string recipeName = "Chicken Curry";
+// int main() {
+//     string recipeName = "Chicken Curry";
 
-    // read recipe from file
-    Recipe recipe = readRecipeFromFile(recipeName + ".recipe");
-    writeRecipeToFile(recipe);
+//     // read recipe from file
+//     Recipe recipe = readRecipeFromFile(recipeName + ".recipe");
+//     writeRecipeToFile(recipe);
 
-    // print recipe
-    // printRecipe(recipe);
+//     // print recipe
+//     // printRecipe(recipe);
 
-    return 0;
-}
+//     return 0;
+// }
