@@ -72,17 +72,34 @@ Recipe readRecipeFromFile(const string& filename) {
 
 void printRecipe(const Recipe& recipe) {
     cout << "Name: " << recipe.name << endl;
-    cout << "cookTime: " << recipe.cookTime << endl;
-    cout << "Ingredients: " << endl;
+    cout << "\nCook Time: " << recipe.cookTime << endl;
+    cout << "\nIngredients: " << endl;
     for (const auto& ingredient : recipe.ingredients) {
         cout << ingredient.first << ": " << ingredient.second << endl;
     }
-    cout << "Instructions: " << endl;
+    cout << "\nInstructions: " << endl;
     int instructionNumber = 1;
     for (const auto& instruction : recipe.instructions) {
         cout << instructionNumber << ": " << instruction << endl;
         instructionNumber++;
     }
+}
+
+std::string recipeToString(const Recipe& recipe) {
+    std::stringstream ss;
+    ss << "Name: " << recipe.name << std::endl;
+    ss << "\nCook Time: " << recipe.cookTime << std::endl;
+    ss << "\nIngredients: " << std::endl;
+    for (const auto& ingredient : recipe.ingredients) {
+        ss << ingredient.first << ": " << ingredient.second << std::endl;
+    }
+    ss << "\nInstructions: " << std::endl;
+    int instructionNumber = 1;
+    for (const auto& instruction : recipe.instructions) {
+        ss << instructionNumber << ": " << instruction << std::endl;
+        instructionNumber++;
+    }
+    return ss.str();
 }
 
 // int main() {

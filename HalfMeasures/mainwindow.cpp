@@ -69,26 +69,16 @@ void MainWindow::on_AS_MainMenuButton_4_clicked()
 
 void MainWindow::on_MS_ViewButton_clicked()
 {
+    // Read and format recipe contents from file as a string
+    cout << "Reading Buttered_Toast.recipe file" << std::endl;
+    Recipe recipe = readRecipeFromFile("Buttered_Toast.recipe");
+    std::string formattedRecipeContents = recipeToString(recipe);
+    cout << formattedRecipeContents << std::endl;
+
+    // Convert string to QString for use in RecipeTextEdit viewing window
+    QString fileContents = QString::fromStdString(formattedRecipeContents);
+
     ui->stackedWidget->setCurrentIndex(2);
-    // Open a file dialog to select a recipe file
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Open Recipe File"), "", tr("Text Files (*.txt);;All Files (*)"));
-    if (filePath.isEmpty()) {
-        return;  // User cancelled the file dialog
-    }
-
-    // Read the contents of the selected file
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::critical(this, tr("Error"), tr("Could not open file %1 for reading.").arg(filePath));
-        return;
-    }
-
-    // Open file to read
-    QTextStream in(&file);
-    QString fileContents = in.readAll();
-    file.close();
-
-    // Display the file contents in a QPlainTextEdit widget
     ui->AS_RecipeTextEdit->setPlainText(fileContents);
     ui->AS_RecipeTextEdit->setReadOnly(true);
     ui->AS_RecipeTextEdit->show();
@@ -127,38 +117,23 @@ void MainWindow::on_AS_SubmitButton_clicked()
     std:string instructionsStd = instructions.toStdString();
     recipe.instructions.push_back({instructionsStd});
 
-    // // Create a QFile object to write the recipe data to a file
-    // QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::currentPath() + "/recipe.txt", tr("Text Files (*.txt)"));
-    // if (!fileName.isEmpty()) {
-    //     QFile file(fileName);
-    //     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-    //         QTextStream out(&file);
-    //         // Write the recipe name and instructions to the file
-    //         out << "Recipe Name: " << recipeName << "\n\n";
-    //         out << "Instructions:\n" << instructions << "\n\n";
-    //         out << "Ingredients:\n";
+    // Write the ingredient data to the file
+    for (int i = 0; i < ui->AS_ScrollArea->widget()->layout()->count(); i++) {
+        IngredientWidget* ingredientWidget = qobject_cast<IngredientWidget*>(ui->AS_ScrollArea->widget()->layout()->itemAt(i)->widget());
+        if (ingredientWidget != nullptr) {
+            QString ingredientName = ingredientWidget->m_ingredientNameLineEdit->text();
+            double ingredientAmount = ingredientWidget->m_quantitySpinBox->value();
+            QString ingredientUnit = ingredientWidget->m_measurementTypeComboBox->currentText();
 
-            // Write the ingredient data to the file
-            for (int i = 0; i < ui->AS_ScrollArea->widget()->layout()->count(); i++) {
-                IngredientWidget* ingredientWidget = qobject_cast<IngredientWidget*>(ui->AS_ScrollArea->widget()->layout()->itemAt(i)->widget());
-                if (ingredientWidget != nullptr) {
-                    QString ingredientName = ingredientWidget->m_ingredientNameLineEdit->text();
-                    double ingredientAmount = ingredientWidget->m_quantitySpinBox->value();
-                    QString ingredientUnit = ingredientWidget->m_measurementTypeComboBox->currentText();
-
-                    // Convert QString and double to strings for Recipe struct
-                    std::string ingredientNameStd = ingredientName.toStdString();
-                    std::string ingredientAmountStd = std::to_string(ingredientAmount);
-                    recipe.ingredients.push_back({ingredientNameStd, ingredientAmountStd});
-
-                    // out << ingredientName << ": " << ingredientAmount << " " << ingredientUnit << "\n";
-                }
-            }
-    //         file.close();
-    //     }
-    // }
+            // Convert QString and double to strings for Recipe struct
+            std::string ingredientNameStd = ingredientName.toStdString();
+            std::string ingredientAmountStd = std::to_string(ingredientAmount);
+            recipe.ingredients.push_back({ingredientNameStd, ingredientAmountStd});
+        }
+    }
 
     writeRecipeToFile(recipe);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 void MainWindow::on_AS_OpenRecipeButton_clicked()
