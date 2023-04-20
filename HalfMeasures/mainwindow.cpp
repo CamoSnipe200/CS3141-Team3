@@ -321,3 +321,33 @@ void MainWindow::on_ES_MainMenuButton_clicked()
     ui->stackedWidget->setCurrentIndex(0);
 }
 
+void MainWindow::on_MS_ShareButton_clicked()
+{
+
+}
+
+void MainWindow::on_VS_EditButton_clicked()
+{
+
+}
+
+void MainWindow::on_ES_BackToViewButton_clicked()
+{
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+
+}
+
+void MainWindow::on_AddScreen_customContextMenuRequested(const QPoint &pos)
+{
+
+}
+

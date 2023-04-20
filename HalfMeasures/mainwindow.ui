@@ -53,7 +53,7 @@
      </size>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="MainScreen">
      <layout class="QGridLayout" name="gridLayout">
@@ -1084,7 +1084,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>674</width>
+                 <width>98</width>
                  <height>16</height>
                 </rect>
                </property>
