@@ -2,6 +2,10 @@
 #include <QStackedWidget>
 #include <QFile>
 #include <QTextStream>
+#include <QApplication>
+#include <QPrinter>
+#include <QTextDocument>
+#include <QFileDialog>
 #include "ingredientwidget.h"
 #include "./ui_mainwindow.h"
 #include "./storageInterface.cpp"
@@ -72,8 +76,8 @@ void MainWindow::on_AS_MainMenuButton_4_clicked()
 void MainWindow::on_MS_ViewButton_clicked()
 {
     // Read and format recipe contents from file as a string
-    cout << "Reading Buttered_Toast.recipe file" << std::endl;
-    Recipe recipe = readRecipeFromFile("Buttered_Toast.recipe");
+    QString filePath = QFileDialog::getOpenFileName(nullptr, "Open File", "", "Recipe files (*.recipe)");
+    Recipe recipe = readRecipeFromFile(filePath.toStdString());
     std::string formattedRecipeContents = recipeToString(recipe);
     cout << formattedRecipeContents << std::endl;
 
@@ -210,7 +214,8 @@ void MainWindow::on_ES_AddIngredientButton_clicked()
 
 void MainWindow::on_MS_EditButton_clicked()
 {
-    Recipe recipe = readRecipeFromFile("Buttered_Toast.recipe");
+    QString filePath = QFileDialog::getOpenFileName(nullptr, "Open File", "", "Recipe files (*.recipe)");
+    Recipe recipe = readRecipeFromFile(filePath.toStdString());
 
     // Set the current index of the stacked widget to the recipe editor page
     ui->stackedWidget->setCurrentIndex(4);
@@ -266,7 +271,11 @@ void MainWindow::on_ES_MainMenuButton_clicked()
 
 void MainWindow::on_MS_ShareButton_clicked()
 {
+    QString filePath = QFileDialog::getOpenFileName(nullptr, "Open File", "", "Recipe files (*.recipe)");
+    Recipe recipe = readRecipeFromFile(filePath.toStdString());
+    QString formattedRecipeContents = QString::fromStdString(recipeToString(recipe));
 
+    saveFormattedStringAsPdf(filePath, formattedRecipeContents);
 }
 
 void MainWindow::on_VS_EditButton_clicked()
