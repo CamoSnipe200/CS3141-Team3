@@ -2,7 +2,6 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-#include <QPrinter>
 
 using namespace std;
 
@@ -12,20 +11,6 @@ struct Recipe {
     vector<pair<string, string>> ingredients;
     vector<string> instructions;
 };
-
-void saveFormattedStringAsPdf(const QString& filePath, const QString& formattedString) {
-    // Create a QTextDocument with your formatted string
-    QTextDocument doc;
-    doc.setHtml(formattedString);
-
-    // Create a QPrinter and set its properties
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(filePath);
-
-    // Print the QTextDocument to the QPrinter
-    doc.print(&printer);
-}
 
 void writeRecipeToFile(const Recipe& recipe) {
     ofstream file(recipe.name + ".recipe");
