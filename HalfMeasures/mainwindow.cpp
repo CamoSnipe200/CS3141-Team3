@@ -5,6 +5,8 @@
 #include "ingredientwidget.h"
 #include "./ui_mainwindow.h"
 #include "./storageInterface.cpp"
+#include <vector>
+#include <string>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -166,36 +168,36 @@ void MainWindow::on_AS_OpenRecipeButton_clicked()
 
 void MainWindow::on_ES_SubmitButton_clicked()
 {
-    MainWindow::on_AS_SubmitButton_clicked();
-    // // Get the recipe name and instructions from the UI
-    // QString recipeName = ui->ES_RecipeNameLE->text();
-    // QString instructions = ui->ES_InstructionsTE->toPlainText();
+    Recipe recipe;
 
-    // // Create a QFile object to write the recipe data to a file
-    // QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), QDir::currentPath() + "/recipe.txt", tr("Text Files (*.txt)"));
-    // if (!fileName.isEmpty()) {
-    //     QFile file(fileName);
-    //     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-    //         QTextStream out(&file);
-    //         // Write the recipe name and instructions to the file
-    //         out << "Recipe Name: " << recipeName << "\n\n";
-    //         out << "Instructions:\n" << instructions << "\n\n";
-    //         out << "Ingredients:\n";
+    // Get the recipe name and instructions from the UI
+    QString recipeName = ui->ES_RecipeNameLE->text();
+    QString instructions = ui->ES_InstructionsTE->toPlainText();
 
-    //         // Write the ingredient data to the file
-    //         for (int i = 0; i < ui->ES_ScrollArea->widget()->layout()->count(); i++) {
-    //             IngredientWidget* ingredientWidget = qobject_cast<IngredientWidget*>(ui->ES_ScrollArea->widget()->layout()->itemAt(i)->widget());
-    //             if (ingredientWidget != nullptr) {
-    //                 QString ingredientName = ingredientWidget->m_ingredientNameLineEdit->text();
-    //                 double ingredientAmount = ingredientWidget->m_quantitySpinBox->value();
-    //                 QString ingredientUnit = ingredientWidget->m_measurementTypeComboBox->currentText();
+    // Convert QString to standard cpp string
+    recipe.name = recipeName.toStdString();
+    recipe.cookTime;
+    recipe.ingredients;
+    std::string instructionsStd = instructions.toStdString();
+    recipe.instructions.push_back({instructionsStd});
 
-    //                 out << ingredientName << ": " << ingredientAmount << " " << ingredientUnit << "\n";
-    //             }
-    //         }
-    //         file.close();
-    //     }
-    // }
+    // Write the ingredient data to the file
+    for (int i = 0; i < ui->ES_ScrollArea->widget()->layout()->count(); i++) {
+        IngredientWidget* ingredientWidget = qobject_cast<IngredientWidget*>(ui->ES_ScrollArea->widget()->layout()->itemAt(i)->widget());
+        if (ingredientWidget != nullptr) {
+            QString ingredientName = ingredientWidget->m_ingredientNameLineEdit->text();
+            double ingredientAmount = ingredientWidget->m_quantitySpinBox->value();
+            QString ingredientUnit = ingredientWidget->m_measurementTypeComboBox->currentText();
+
+            // Convert QString and double to strings for Recipe struct
+            std::string ingredientNameStd = ingredientName.toStdString();
+            std::string ingredientAmountStd = std::to_string(ingredientAmount);
+            recipe.ingredients.push_back({ingredientNameStd, ingredientAmountStd});
+        }
+    }
+
+    writeRecipeToFile(recipe);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 
@@ -208,6 +210,8 @@ void MainWindow::on_ES_AddIngredientButton_clicked()
 
 void MainWindow::on_MS_EditButton_clicked()
 {
+    Recipe recipe = readRecipeFromFile("Buttered_Toast.recipe");
+
     // Set the current index of the stacked widget to the recipe editor page
     ui->stackedWidget->setCurrentIndex(4);
 
@@ -220,92 +224,39 @@ void MainWindow::on_MS_EditButton_clicked()
     ui->ES_RecipeNameLE->setPlaceholderText("Enter Recipe Name");
 
     // Create a list of available measurement types
-    QStringList measurementTypes = {"teaspoon", "tablespoon", "fluid ounce", "cup", "pint", "quart", "gallon", "ounce", "pound", "can"};
+    QStringList measurementTypes = {"-", "teaspoon", "tablespoon", "fluid ounce", "cup", "pint", "quart", "gallon", "ounce", "pound", "can"};
 
-    // Prompt the user to select a recipe file
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Recipe File"), QString(), tr("Text Files (*.txt);;All Files (*)"));
+    // If the line starts with "Recipe Name:", set the text of the recipe name line edit to the name of the recipe
+    ui->ES_RecipeNameLE->setText(QString::fromStdString(recipe.name));
 
-    // If the user canceled the dialog, return
-    if (fileName.isEmpty()) {
-        return;
-    }
-
-    // Open the selected recipe file
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        // Error opening file
-        return;
-    }
-
-    // Read the recipe file line by line
-    QTextStream in(&file);
-    QString line = in.readLine();
-    while (!line.isNull())
+    // If the line starts with "Instructions:", read the instructions until the next section starts
+    for (int i = 0; i<recipe.instructions.size(); i++)
     {
-        // If the line starts with "Recipe Name:", set the text of the recipe name line edit to the name of the recipe
-        if (line.startsWith("Recipe Name:"))
-        {
-            QString recipeName = line.mid(line.indexOf(":") + 1).trimmed();
-            ui->ES_RecipeNameLE->setText(recipeName);
-            line = in.readLine();
-        }
-        // If the line starts with "Instructions:", read the instructions until the next section starts
-        else if (line.startsWith("Instructions:"))
-        {
-            QString instructions;
-            line = in.readLine(); // read next line after "Instructions:"
-            while (!line.startsWith("Ingredient"))
-            {
-                instructions += line + "\n";
-                line = in.readLine();
-            }
-            ui->ES_InstructionsTE->setPlainText(instructions);
-        }
-        // If the line starts with "Ingredients:", read each ingredient and create a new ingredient widget
-        else if (line.startsWith("Ingredients:"))
-        {
-            line = in.readLine();
-            while(!line.isNull())
-            {
-                // Read the name, amount, and unit of the ingredient
-                QString ingredientLine = line.trimmed(); // remove any leading/trailing whitespaces
-                QString ingredientName = ingredientLine.left(ingredientLine.indexOf(":")).trimmed();
-                double ingredientAmount = line.mid(line.indexOf(":") + 1).trimmed().split(' ').at(0).toDouble();
-                QString ingredientUnit = line.mid(line.indexOf(":") + 1).trimmed().split(' ').mid(1).join(' ');
-
-                // Create a new ingredient widget and set its properties based on the ingredient data
-                IngredientWidget* newIngredient = new IngredientWidget(this);
-                newIngredient->m_ingredientNameLineEdit->setText(ingredientName);
-                newIngredient->m_quantitySpinBox->setValue(ingredientAmount);
-
-                // Set the measurement type combo box to the index of the measurement type in the list
-                int index = measurementTypes.indexOf(ingredientUnit);
-                if (index >= 0) {
-                    newIngredient->m_measurementTypeComboBox->setCurrentIndex(index);
-                }
-
-                // Add the new ingredient widget to the ingredient container layout
-                lay->addWidget(newIngredient);
-
-                // Read the next line to see if there are more ingredients to add
-                lay->addWidget(newIngredient);
-
-                // read next line after the ingredient widget
-                line = in.readLine();
-            }
-
-            // set the widget as the scroll area's widget
-            ui->ES_ScrollArea->setWidget(container);
-        }
-        else
-        {
-            // ignore any other lines
-            line = in.readLine();
-        }
+        ui->ES_InstructionsTE->setPlainText(QString::fromStdString(recipe.instructions[i]));
     }
 
-    // close the file
-    file.close();
+    // If the line starts with "Ingredients:", read each ingredient and create a new ingredient widget
+    for (int i = 0; i<recipe.ingredients.size(); i++)
+    {
+        IngredientWidget* newIngredient = new IngredientWidget(this);
+        newIngredient->m_ingredientNameLineEdit->setText(QString::fromStdString(recipe.ingredients[i].first));
+        newIngredient->m_quantitySpinBox->setValue(stod(recipe.ingredients[i].second));
+
+        // Set the measurement type combo box to the index of the measurement type in the list
+        int index = 1;
+        if (index >= 0) {
+            newIngredient->m_measurementTypeComboBox->setCurrentIndex(index);
+        }
+
+        // Add the new ingredient widget to the ingredient container layout
+        lay->addWidget(newIngredient);
+
+        // Read the next line to see if there are more ingredients to add
+        lay->addWidget(newIngredient);
+    }
+
+    // set the widget as the scroll area's widget
+    ui->ES_ScrollArea->setWidget(container);
 }
 
 void MainWindow::on_ES_MainMenuButton_clicked()

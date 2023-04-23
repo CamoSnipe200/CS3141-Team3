@@ -12,7 +12,7 @@ struct Recipe {
     vector<string> instructions;
 };
 
-Recipe writeRecipeToFile(const Recipe& recipe) {
+void writeRecipeToFile(const Recipe& recipe) {
     ofstream file(recipe.name + ".recipe");
     file << recipe.name << '+' << recipe.cookTime << '+';
 
