@@ -188,6 +188,34 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="MS_ShareButton">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>150</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>150</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="text">
+             <string>Share</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>

@@ -44,6 +44,7 @@ public:
     QPushButton *MS_AddButton;
     QPushButton *MS_ViewButton;
     QPushButton *MS_EditButton;
+    QPushButton *MS_ShareButton;
     QWidget *AddScreen;
     QGridLayout *gridLayout_2;
     QVBoxLayout *AS_VerticalLayout;
@@ -183,6 +184,15 @@ public:
         MS_EditButton->setCursor(QCursor(Qt::PointingHandCursor));
 
         MS_HorizontalLayout->addWidget(MS_EditButton);
+
+        MS_ShareButton = new QPushButton(MainScreen);
+        MS_ShareButton->setObjectName("MS_ShareButton");
+        MS_ShareButton->setMinimumSize(QSize(0, 150));
+        MS_ShareButton->setMaximumSize(QSize(16777215, 150));
+        MS_ShareButton->setFont(font2);
+        MS_ShareButton->setCursor(QCursor(Qt::PointingHandCursor));
+
+        MS_HorizontalLayout->addWidget(MS_ShareButton);
 
 
         MS_VerticalLayout->addLayout(MS_HorizontalLayout);
@@ -669,6 +679,7 @@ public:
         MS_AddButton->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         MS_ViewButton->setText(QCoreApplication::translate("MainWindow", "View", nullptr));
         MS_EditButton->setText(QCoreApplication::translate("MainWindow", "Edit", nullptr));
+        MS_ShareButton->setText(QCoreApplication::translate("MainWindow", "Share", nullptr));
         AS_LabelTitle->setText(QCoreApplication::translate("MainWindow", "Add", nullptr));
         AS_MainMenuButton->setText(QCoreApplication::translate("MainWindow", "Back to Main Menu", nullptr));
         AS_InstructionsLabel->setText(QCoreApplication::translate("MainWindow", "Instructions", nullptr));

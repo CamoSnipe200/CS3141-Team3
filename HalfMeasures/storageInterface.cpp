@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <QPrinter>
+#include <string>
 
 using namespace std;
 
@@ -14,9 +15,13 @@ struct Recipe {
 };
 
 void saveFormattedStringAsPdf(const QString& filePath, const QString& formattedString) {
-    // Create a QTextDocument with your formatted string
+    // Replace newline characters with <br> tags
+    QString htmlString = formattedString;
+    htmlString.replace("\n", "<br>");
+
+    // Create a QTextDocument with the formatted HTML string
     QTextDocument doc;
-    doc.setHtml(formattedString);
+    doc.setHtml(htmlString);
 
     // Create a QPrinter and set its properties
     QPrinter printer(QPrinter::HighResolution);
@@ -39,7 +44,17 @@ void writeRecipeToFile(const Recipe& recipe) {
 
     // write instructions
     for (const auto& instruction : recipe.instructions) {
-        file << instruction << ';';
+        std::string ingredients = "";
+        std::stringstream ss(instruction);
+        std::vector<std::string> tokens;
+        std::string token;
+        while (std::getline(ss, token, '\n')) {
+            tokens.push_back(token);
+        }
+        for (const auto& token : tokens) {
+            ingredients += token + ";";
+        }
+        file << ingredients;
     }
     file << '+' << endl;
 

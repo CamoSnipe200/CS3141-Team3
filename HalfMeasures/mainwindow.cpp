@@ -138,6 +138,8 @@ void MainWindow::on_AS_SubmitButton_clicked()
         }
     }
 
+    ui->AS_RecipeNameLE->setText("");
+    ui->AS_InstructionsTE->clear();
     writeRecipeToFile(recipe);
     ui->stackedWidget->setCurrentIndex(0);
 }
@@ -235,9 +237,9 @@ void MainWindow::on_MS_EditButton_clicked()
     ui->ES_RecipeNameLE->setText(QString::fromStdString(recipe.name));
 
     // If the line starts with "Instructions:", read the instructions until the next section starts
-    for (int i = 0; i<recipe.instructions.size(); i++)
+    for (const auto& instruction : recipe.instructions)
     {
-        ui->ES_InstructionsTE->setPlainText(QString::fromStdString(recipe.instructions[i]));
+        ui->ES_InstructionsTE->setPlainText(QString::fromStdString(instruction));
     }
 
     // If the line starts with "Ingredients:", read each ingredient and create a new ingredient widget
@@ -274,8 +276,9 @@ void MainWindow::on_MS_ShareButton_clicked()
     QString filePath = QFileDialog::getOpenFileName(nullptr, "Open File", "", "Recipe files (*.recipe)");
     Recipe recipe = readRecipeFromFile(filePath.toStdString());
     QString formattedRecipeContents = QString::fromStdString(recipeToString(recipe));
+    QString PDFFilePath = QFileDialog::getSaveFileName(nullptr, "Save PDF File", "", "PDF files (*.pdf)");
 
-    saveFormattedStringAsPdf(filePath, formattedRecipeContents);
+    saveFormattedStringAsPdf(PDFFilePath, formattedRecipeContents);
 }
 
 void MainWindow::on_VS_EditButton_clicked()
